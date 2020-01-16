@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <!--layout v1.0-->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title></title>
+    <base href=""/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/select2/dist/css/select2.min.css}"/>
+    <!-- daterange picker -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css}"/>
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}"/>
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css}"/>
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-timepicker/css/timepicker.less}"/>
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/plugins/iCheck/all.css}"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/AdminLTE.min.css}"/>
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/skins/_all-skins.min.css}"/>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/webjars/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="/webjars/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <header class="main-header" layout:fragment="main-header">
+        <!-- Logo -->
+        <a href="/index" th:href="@{/index}" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>LT</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>GM</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="hidden-xs"><span sec:authentication="name"></span></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-right">
+                                    <a href="/logout" th:href="@{/logout}" class="btn btn-default btn-flat">登出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+        </nav>
+    </header>
+    <!-- Left side column. contains the sidebar -->
+    <aside class="main-sidebar" layout:fragment="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li><a href="/index" th:href="@{/index}"><i class="fa fa-dashboard  text-green"></i> <span>首页</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ACCOUNT')"><a href="/gm/account/index" th:href="@{/gm/account/index}"><i class="fa fa-search text-red"></i> <span>帐号查询</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_CHAR')"><a href="/gm/char/index" th:href="@{/gm/char/index}"><i class="fa  fa-users text-teal"></i> <span>角色查询</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_FORBID_TALK')"><a href="/gm/forbid_talk/edit" th:href="@{/gm/forbid_talk/edit}"><i class="fa fa-volume-off text-fuchsia"></i> <span>角色禁言</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_FORBID_LOGIN')"><a href="/gm/forbid_login/edit" th:href="@{/gm/forbid_login/edit}"><i class="fa fa-unlock-alt text-white"></i> <span>角色封禁</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MAIL')"><a href="/gm/item_mail/edit" th:href="@{/gm/item_mail/edit}"><i class="fa  fa-envelope text-green"></i> <span>物品邮件</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_SERVER')"><a href="/admin/server/index" th:href="@{/admin/server/index}"><i class="fa fa-server text-blue"></i> <span>服务器管理</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ITEM')"><a href="/admin/item/index" th:href="@{/admin/item/index}"><i class="fa  fa-book text-yellow"></i> <span>物品管理</span></a></li>
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN')"><a href="/admin/log/index" th:href="@{/admin/log/index}"><i class="fa   fa-database text-purple"></i> <span>操作日志</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" layout:fragment="content-wrapper">
+        <!--content-wrapper layout replace-->
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer" layout:fragment="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.5
+        </div>
+        <strong>Copyright &copy; 2017-2018 <a href="#">kaka</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<!-- ./wrapper -->
+<!-- page script -->
+<!-- jQuery 3.2.1 -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- DataTables 1.10.16-->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<!-- Select2 4.0.4-->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/select2/dist/js/select2.full.min.js}"></script>
+<!-- moment -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/moment/min/moment.min.js}"></script>
+<!-- date-range-picker -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js}"></script>
+<!-- bootstrap datepicker -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<!-- bootstrap color picker -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/fastclick/lib/fastclick.js}"></script>
+<!-- bootstrap time picker -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js}"></script>
+<!-- SlimScroll -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!-- iCheck 1.0.1 -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/plugins/iCheck/icheck.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/dist/js/adminlte.min.js}"></script>
+<!--Date format-->
+<script th:src="@{/dist/js/date.format.js}"></script>
+<!--Custom javascript-->
+<script th:inline="javascript" layout:fragment="page-script">
+</script>
+</body>
+</html>

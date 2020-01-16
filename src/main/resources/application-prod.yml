@@ -1,0 +1,33 @@
+spring:
+  datasource:
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:mysql://127.0.0.1:3306/gm?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: 123456
+      hikari:
+       idle-timeout: 10000
+       minimum-idle: 5
+       maximum-pool-size: 20
+       pool-name: web-gm
+       connection-test-query: select 1
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write_dates_as_timestamps: false
+
+  thymeleaf:
+    cache: false
+  jpa:
+    generate-ddl: false
+  cache:
+    jcache:
+      config: ehcache.xml
+server:
+    port: 8080
+
+logging:
+  config: classpath:logback.xml
+

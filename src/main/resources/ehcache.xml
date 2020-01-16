@@ -1,0 +1,26 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+    <cache-template name="heap-cache-server">
+        <resources>
+            <heap unit="entries">600</heap>
+            <offheap unit="MB">10</offheap>
+        </resources>
+    </cache-template>
+    <cache-template name="heap-cache-item">
+        <resources>
+            <heap unit="entries">10000</heap>
+            <offheap unit="MB">80</offheap>
+        </resources>
+    </cache-template>
+    <cache alias="game_server_cache" uses-template="heap-cache-server">
+        <expiry>
+            <ttl unit="hours">720000</ttl>
+        </expiry>
+    </cache>
+    <cache alias="game_item_cache" uses-template="heap-cache-item">
+        <expiry>
+            <ttl unit="hours">720000</ttl>
+        </expiry>
+    </cache>
+</config>

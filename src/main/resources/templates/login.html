@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="#{product.name}"></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/AdminLTE.min.css}"/>
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/skins/_all-skins.min.css}"/>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/webjars/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="/webjars/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b th:text="#{product.name}"></b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg" th:text="#{page.login}">登陆</p>
+        <p th:if="${param.error}">用户名或密码错误!</p>
+        <p th:if="${param.logout}">您已成功登出!</p>
+        <form name="form" th:action="@{/login}" action="/login" method="POST">
+            <div class="form-group has-feedback">
+                <input type="text" name="username" class="form-control" th:placeholder="#{page.login.username}" placeholder="账号"/>
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="password" class="form-control" th:placeholder="#{page.login.password}" placeholder="密码"/>
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat" th:text="#{page.login}">登陆</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+        <!-- /.social-auth-links -->
+    </div>
+    <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+<!-- jQuery 3.2.1 -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+</body>
+</html>

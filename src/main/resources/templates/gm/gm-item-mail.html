@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="common/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>物品邮寄</title>
+    <base href=""/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" layout:fragment="content-wrapper">
+        <section class="content-header">
+            <h1>物品邮寄</h1>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/gm/char/query(serverId=${serverId},roleId=${roleId}) }"><i class="fa fa-dashboard"></i>角色信息</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="row" th:if="${null != error}">
+                <div class="col-md-12">
+                    <div class="box box-danger}">
+                        <div class="box-header with-border">
+                            <h4 class="box-danger" th:text="${error}"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">物品邮寄</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" th:action="@{/gm/item_mail/send}" method="post" id="item_mail_form" onsubmit="return formOnSubmit();">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="game_server_select2" class="col-sm-2 control-label">服务器</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="serverId" id="game_server_select2" required="required">
+                                            <option value="">选择服务器</option>
+                                            <option th:each="server:${all_servers}" th:value="${server.serverId}" th:text="${server.serverName}" th:selected="${server.serverId == serverId}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roleId" class="col-sm-2 control-label">角色ID</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="roleId" class="form-control" id="roleId" th:value="${roleId}" required="required" placeholder="角色ID"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="game_item_select2" class="col-sm-2 control-label">物品名称</label>
+                                    <div class="col-sm-10">
+                                        <select id="game_item_select2" name="itemId" class="form-control select2" style="width: 100%;" required="required">
+                                            <option value="">点击输入物品ID,选择物品</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="itemCount" class="col-sm-2 control-label">物品数量</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="itemCount" class="form-control" id="itemCount" th:value="${itemCount}" required="required" placeholder="物品数量"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">邮件标题</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="title" class="form-control" id="title" th:value="${title}" required="required" placeholder="邮件标题"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="content" class="col-sm-2 control-label">邮件内容</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="content" class="form-control" id="content" th:value="${content}" required="required" placeholder="邮件内容"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+                                <button type="reset" class="btn btn-default">Reset</button>
+                                <button type="submit" class="btn btn-info pull-right" id="submit_btn">Send</button>
+                            </div>
+                            <!-- /.box-footer -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <!-- 模态框（Modal） -->
+            <div class="modal fade in" id="modal_info" style="display: none;  padding-right: 17px;" role="dialog" aria-labelledby="modal_info" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="response_code">返回码：</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="response_message">返回信息：</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+</div>
+
+<!-- ./wrapper -->
+<!-- page script -->
+<script th:inline="javascript" layout:fragment="page-script">
+    /*<![CDATA[*/
+    var formOnSubmit = function () {
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "/gm/item_mail/send",
+            data: $('#item_mail_form').serialize(),
+            success: function (result) {
+                $("#response_code").html('返回码:' + result.code);
+                $("#response_message").html('信息:' + result.error);
+                $("#modal_info").modal("show");
+            },
+            error: function (data) {
+                alert("error:" + data.responseText);
+            }
+        });
+
+        return false;
+    };
+
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+        $("#game_item_select2").select2({
+            minimumInputLength: 2,
+            minimumResultsForSearch: 16,
+            ajax: {
+                url: "/admin/item/search",
+                dataType: "json",
+                delay: 300,
+                data: function (params) {
+                    return {
+                        itemKeyword: params.term,
+                    };
+                },
+                cache: true,
+                processResults: function (res, params) {
+                    var options = [];
+                    for (var i = 0, len = res.length; i < len; i++) {
+                        var option = {"id": res[i].itemId, "text": res[i].itemName + "(" +res[i].itemId +")"};
+                        options.push(option);
+                    }
+                    return {
+                        results: options,
+                    };
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+            }
+        });
+
+    });
+    /*]]>*/
+</script>
+
+
+</body>
+</html>

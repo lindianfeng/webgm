@@ -1,0 +1,19 @@
+spring:
+  thymeleaf:
+    cache: false
+  jpa:
+    generate-ddl: true
+  cache:
+    jcache:
+      config: ehcache.xml
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write_dates_as_timestamps: false
+
+server:
+  port: 8080
+logging:
+  config: classpath:logback.xml
+
